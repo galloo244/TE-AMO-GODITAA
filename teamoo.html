@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Amor ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: #ffb6c1; /* Fondo rosado */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Lluvia suave de corazones de fondo */
+        .bg-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.5rem;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) scale(0.8); opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            transition: transform 0.5s ease-out;
+        }
+
+        /* Texto grandote de los pasos 1, 2 y final */
+        .title {
+            color: #d81b60;
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            line-height: 1.2;
+        }
+
+        /* Texto final super especial */
+        .title-final {
+            color: #d81b60;
+            font-size: 4rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 2px 2px 10px rgba(216, 27, 96, 0.3);
+            animation: pulseHeart 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        /* Botón general */
+        .btn {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #e91e63;
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Botón pequeño para el final del texto */
+        .btn-small {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+            margin-top: 15px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            display: inline-block;
+        }
+
+        .btn-small:hover {
+            background-color: #e91e63;
+            transform: scale(1.05);
+        }
+
+        /* TARJETA DE CARTA CON SCROLL */
+        .letter-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px 30px;
+            box-shadow: 0 15px 35px rgba(216, 27, 96, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            text-align: left;
+            color: #4a4a4a;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 65vh;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            user-select: text;
+        }
+
+        .letter-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-card::-webkit-scrollbar-thumb {
+            background-color: #ff80ab;
+            border-radius: 10px;
+        }
+
+        /* Cursor titilante */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background-color: #d81b60;
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo de corazones -->
+    <div class="bg-hearts" id="heartsContainer"></div>
+
+    <div class="container" id="mainContainer">
+        <!-- PASO 1 -->
+        <div id="paso1">
+            <h1 class="title">Amorsoooteee</h1>
+            <button class="btn" onclick="siguientePaso(1)">Queee amooor</button>
+        </div>
+
+        <!-- PASO 2 -->
+        <div id="paso2" class="hidden">
+            <h1 class="title">Queria decirte unas cosas amor...</h1>
+            <button class="btn" onclick="siguientePaso(2)">que paso amor?</button>
+        </div>
+
+        <!-- PASO 3 (CARTA + BOTÓN PEQUEÑO) -->
+        <div id="paso3" class="hidden">
+            <div class="letter-card" id="letterCard">
+                <span id="typedText"></span><span class="cursor" id="cursor"></span>
+            </div>
+            <div style="text-align: center;">
+                <button class="btn-small hidden" id="btnAmor" onclick="mostrarFinal()">AMOR...</button>
+            </div>
+        </div>
+
+        <!-- PASO 4 (FINAL) -->
+        <div id="paso4" class="hidden">
+            <h1 class="title-final">TE AMO.... ❤️</h1>
+        </div>
+    </div>
+
+    <script>
+        // Lluvia de corazones
+        const heartsContainer = document.getElementById('heartsContainer');
+        const emojis = ['❤️', '💖', '💕', '✨', '🌸'];
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartsContainer.appendChild(heart);
+        }
+
+        // Texto completo de la carta
+        const textoCarta = `Mi vida hermosa, hoy llegamos oficialmente a nuestros cuatro meses juntos, y si te soy sincero, me cuesta muchísimo encontrar las palabras exactas que alcancen para explicar todo lo que me hacés sentir. Siento que el tiempo voló a una velocidad increíble, pero al mismo tiempo miro hacia atrás y me da la sensación de que te conozco de toda la vida, como si mi alma te hubiera estado buscando desde siempre. Estos 120 días a tu lado me cambiaron la perspectiva de todo, me enseñaron lo que es amar de verdad y me llenaron el corazón de una forma que ni me imaginaba que era posible. Si de algo estoy completamente seguro hoy, es de que mi amor por vos no tiene límites; no tiene techo, no se apaga y solo sabe crecer a cada segundo. Te convertiste, sin lugar a dudas, en mi vida entera, en mi razón para sonreír todos los días y en mi lugar seguro en el mundo.
+
+Amo con locura la complicidad tan única y especial que fuimos construyendo día a día, en los detalles más chiquitos. Esos momentos que quizás para el resto del mundo son normales, para mí al lado tuyo son verdaderos tesoros. Me encanta ir a buscarte o acompañarte a comprar tus batidos de frutilla solo para ver la carita de felicidad que ponés; ver cómo se te ilumina la mirada y esa sonrisita preciosa que ponés al tomarlo es, literalmente, lo que me arregla el día más oscuro. Me fascina esa vibra tan nuestra de empezar a reírnos por cualquier boludez sin sentido, tentarnos a más no poder y terminar tentados con la panza doliendo de tanto reírnos sin poder parar.
+
+Tampoco me voy a olvidar nunca de nuestra segunda vez en dirección... esas anécdotas locas, situaciones insólitas y momentos completamente random que solo nosotros dos entendemos. Esas cosas nos quedan marcadas para siempre y me hacen reconfirmar el equipo indestructible que formamos. Con vos absolutamente todo es más divertido, más liviano y más hermoso. Tenés esa magia de transformar un día aburrido o complicado en una aventura inolvidable con solo estar presente.
+
+Sos mi gordita hermosa, una mujer perfecta por donde se te mire. Pero hay algo en particular que me desarma, que me mata por completo y me deja sin defensas: cuando te dan esos tuyos "ataques de amor" de la nada. Cuando venís, me abrazás fuerte, me llenás de besos y me demostrás todo lo que sentís, me dejás flotando en el aire con la sonrisa más boba del planeta. En esos segundos exactos me detengo a pensar en lo increíblemente afortunado que soy de tenerte a mi lado. Sos brutalmente linda, preciosa y hermosa por fuera, pero lo que tenés por dentro —tu corazón, tu forma de ser, tu dulzura y la forma tan pura en la que querés— es algo de otro planeta. Me hacés infinitamente feliz, con una felicidad real, sincera y plena que jamás pensé llegar a experimentar.
+
+En este punto solo quiero pedirte una cosa: sigamos sumando capítulos a esta historia tan nuestra. Quiero miles de tardes más compartiendo batidos, infinitas noches tentándonos de la risa por pavadas, más anécdotas locas para el recuerdo, más abrazos eternos en los que el tiempo se detenga y cientos de metas por cumplir juntos. Sos mi compañera, mi confidente, mi novia y el amor de mi vida. Me prometo a mí mismo cuidarte como al tesoro más grande, sacarte una sonrisa incluso en tus días difíciles y estar firme a tu lado en cada paso que des.
+
+Gracias por estos 4 meses mágicos, inolvidables y llenos del amor más lindo del mundo. ¡Felices 4 meses, mi vida hermosa! Esto recién empieza y me muero de ganas de vivir todo lo que nos espera por delante. Te amo con el alma entera.`;
+
+        function siguientePaso(pasoActual) {
+            if (pasoActual === 1) {
+                document.getElementById('paso1').classList.add('hidden');
+                document.getElementById('paso2').classList.remove('hidden');
+            } else if (pasoActual === 2) {
+                document.getElementById('paso2').classList.add('hidden');
+                document.getElementById('paso3').classList.remove('hidden');
+                empezarEfectoEscritura();
+            }
+        }
+
+        function empezarEfectoEscritura() {
+            let i = 0;
+            const typedTextElement = document.getElementById('typedText');
+            const letterCard = document.getElementById('letterCard');
+            const mainContainer = document.getElementById('mainContainer');
+            const totalChars = textoCarta.length;
+
+            function escribir() {
+                if (i < totalChars) {
+                    typedTextElement.textContent += textoCarta.charAt(i);
+                    i++;
+
+                    let progreso = i / totalChars;
+                    let escala = 1 - (progreso * 0.1);
+                    mainContainer.style.transform = `scale(${escala})`;
+
+                    letterCard.scrollTop = letterCard.scrollHeight;
+
+                    setTimeout(escribir, 35);
+                } else {
+                    document.getElementById('cursor').style.display = 'none';
+                    // Muestra el botón chiquito "AMOR..." al finalizar
+                    document.getElementById('btnAmor').classList.remove('hidden');
+                }
+            }
+
+            escribir();
+        }
+
+        function mostrarFinal() {
+            // Oculta la carta y muestra el mensaje final
+            document.getElementById('paso3').classList.add('hidden');
+            document.getElementById('mainContainer').style.transform = 'scale(1)'; // Restablece tamaño
+            document.getElementById('paso4').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
